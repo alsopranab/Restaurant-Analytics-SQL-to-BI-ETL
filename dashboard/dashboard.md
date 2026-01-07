@@ -150,7 +150,6 @@ Helps understand menu size and variety compared to performance.
 This project delivers:
 - Clear visibility into restaurant performance
 - Actionable insights for menu optimization
-- Better staffing and promotion planning
 - A scalable foundation for future analytics
 
 ---
