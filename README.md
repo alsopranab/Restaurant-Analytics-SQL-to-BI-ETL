@@ -1,128 +1,119 @@
-# Restaurant Analytics – SQL to BI ETL
+#  Restaurant Analytics — SQL to BI ETL Pipeline
 
 <p align="center">
   <img src="dashboard/restaurant_analytics_dashboard.png" width="900">
 </p>
 
 <p align="center">
-  <i>End-to-end analytics dashboard built from SQL data using Python ETL and Looker Studio</i>
+  <i>Fig 1. Final Looker Studio Visualization</i>
 </p>
 
 ---
 
 ##  Architecture Workflow
 
-This diagram represents the flow of data from the source database to the final user visualization.
+<p align="center">
+  <img src="workflow/workflow.jpg" width="900">
+</p>
 
-```mermaid
-flowchart LR
-    %% Styling
-    classDef db fill:#e1f5fe,stroke:#01579b,stroke-width:2px;
-    classDef py fill:#fff9c4,stroke:#fbc02d,stroke-width:2px;
-    classDef mail fill:#e0f7fa,stroke:#006064,stroke-width:2px;
-    classDef sheet fill:#f1f8e9,stroke:#33691e,stroke-width:2px;
-    classDef viz fill:#e8eaf6,stroke:#1a237e,stroke-width:2px;
+<p align="center">
+  <i>
+    Fig 2. ETL Workflow Diagram
+  </i>
+</p>
 
-    %% Nodes
-    A[("MySQL DB")]:::db
-    B("Python ETL Script"):::py
-    C("SMTP Email Service"):::mail
-    D("Google Sheets<br/>(JS Automation)"):::sheet
-    E((Visualization)):::viz
+---
 
-    %% Links with Data Counts
-    A -- "Extracted (106)" --> B
-    B -- "Processed (204)" --> C
-    C -- "Sent (77)" --> D
-    D -- "Final View (109)" --> E
-
-    %% Interactions
-    subgraph Processing [" 🐍 Python Logic "]
-        direction TB
-        P1[MySQL Connector]
-        P2[Data Cleaning & Aggregation]
-        P3[KPI Calculation]
-    end
-    
-    B -.- Processing
-```
-
-Looker-Studio: 
-
+## Live Dashboard (Looker Studio)
 ```
 https://lookerstudio.google.com/reporting/256749c2-2924-493d-a924-ab75e8233c9a
 ```
+
+
+---
+
 ## Problem Statement
 
-Restaurants generate large volumes of transactional data every day, but this data often stays locked inside databases and is difficult to use for business decisions.
+Restaurants generate large volumes of transactional data every day, but this data often remains locked inside databases and is not easily usable for decision-making.
 
 The business needed:
 - Visibility into **most and least ordered items**
-- Understanding of **high-value orders**
+- Identification of **high-value orders**
 - Insights into **peak and low ordering hours**
-- Data-driven decisions on **which cuisines to expand**
-- An **automated reporting process**
+- Understanding of **top-performing cuisines**
+- A fully **automated reporting workflow**
 
-This project solves these problems using a **simple end-to-end ETL pipeline**.
+This project solves these problems using a **simple, automated, end-to-end ETL pipeline**.
 
 ---
 
 ## Project Overview
 
-This is a **demo ETL project** that moves data directly from **SQL to visualization**.
+This is a **demo ETL and analytics project** that moves data directly from **SQL to business intelligence**.
 
+The pipeline:
+- Extracts raw data from MySQL
+- Transforms it into analytics-ready metrics using Python
+- Automatically delivers data to Google Sheets and Looker Studio
+
+The result is **zero manual reporting** and **always up-to-date KPIs**.
 
 ---
 
 ## Tech Stack
 
 - **Database:** MySQL  
-- **ETL:** Python (pandas)  
-- **Automation:** Gmail + Google Apps Script  
+- **ETL & Transformation:** Python (pandas)  
+- **Automation:** Gmail (SMTP) + Google Apps Script  
 - **Visualization:** Looker Studio  
 
 ---
 
 ## Data Source
 
+The project uses the following tables:
+
 - `order_details`
 - `menu_items`
 
-These tables are joined to create a single analytics-ready dataset.
+These tables are joined to create a **single analytics-ready dataset**.
 
 ---
 
 ## ETL Process
 
-**Extract**
+### Extract
 - Pulls data from MySQL using SQL queries
+- Uses Python MySQL connector and cursor execution
 
-**Transform**
-- Cleans data types
-- Adds time features (order hour)
-- Calculates order, item, and category metrics
+### Transform
+- Cleans and standardizes data types
+- Removes duplicates and handles null values
+- Adds time-based features (order hour)
+- Calculates item-level, order-level, and category-level metrics
 
-**Load**
-- Creates one final CSV
-- Sends the report automatically via email
-- Feeds Google Sheets and Looker Studio
+### Load
+- Generates a final consolidated CSV file
+- Sends the CSV automatically via email
+- Loads data into Google Sheets
+- Feeds Looker Studio for visualization
 
 ---
 
 ## Business Questions Answered
 
 - Which items are **most and least ordered**
-- Which orders generate the **highest spend**
+- Which orders generate the **highest revenue**
 - When do **peak and slow hours** occur
-- Which **cuisines perform best** and should be expanded
+- Which cuisines perform best and should be **expanded**
 
 ---
 
 ## Output
 
-- **Final File:** `restaurant_analytics_final.csv`
+- **Final Dataset:** `restaurant_analytics_final.csv`
 - **Used for:**
-  - Google Sheets (view layer)
+  - Google Sheets (data layer)
   - Looker Studio dashboard
   - Automated email reporting
 
@@ -130,8 +121,9 @@ These tables are joined to create a single analytics-ready dataset.
 
 ## Automation
 
-- KPI reports are emailed automatically
-- Designed for future scheduling using **cron**
+- KPI reports are sent automatically via email
+- Designed for future scheduling using **cron jobs**
+- Pipeline can be extended for daily or hourly refreshes
 
 ---
 
